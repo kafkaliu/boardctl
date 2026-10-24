@@ -4,7 +4,7 @@
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
-| v0.1 | 2025-10-24 | 初稿：定位（源自 vmpi REQ-0009 边界拆分）、需求记录（REQ-0001～0008）、架构、CLI 规格、阶段计划 Q0–Q5 |
+| v0.1 | 2026-10-24 | 初稿：定位（源自 vmpi REQ-0009 边界拆分）、需求记录（REQ-0001～0008）、架构、CLI 规格、阶段计划 Q0–Q5 |
 
 ---
 
@@ -20,7 +20,7 @@
 
 ### 1.2 背景与来源
 
-- 源起：[vmpi](https://github.com/kafkaliu/vmpi)（虚拟板模拟器，P0–P2 已交付）的边界讨论——"AI agent 经网络开发/测试/部署板子"的通用客户端层不适合放在模拟器仓库，独立成本项目（vmpi REQ-0009，2025-10-24 确认）。
+- 源起：[vmpi](https://github.com/kafkaliu/vmpi)（虚拟板模拟器，P0–P2 已交付）的边界讨论——"AI agent 经网络开发/测试/部署板子"的通用客户端层不适合放在模拟器仓库，独立成本项目（vmpi REQ-0009，2026-10-24 确认）。
 - **与 vmpi 的关系**：
   - vmpi 回答"板子长在哪"（QEMU/WSL/usbipd 编排，运行在板卡宿主机）；
   - boardctl 回答"怎么用板子"（客户端，运行在 agent/开发机）；
@@ -40,14 +40,14 @@
 
 | 编号 | 日期 | 需求内容 | 状态 |
 |---|---|---|---|
-| REQ-0001 | 2025-10-24 | 定位：通用板卡客户端（虚拟/真实统一 endpoint 模型），供 AI agent 与人使用；源起 vmpi REQ-0009 边界拆分 | 已确认 |
-| REQ-0002 | 2025-10-24 | 双命令面：使用面（ssh/deploy/console/status）任意机器可用；管理面（start/stop/reset/flash/usb/port）仅本地或经 `--via ssh://宿主机` 代理执行；远程调用管理面而无 via 时给出明确指引 | 已确认 |
-| REQ-0003 | 2025-10-24 | 多板命名配置：`~/.boardctl/config.yaml` 以名字管理多个板子（虚拟/真板混排），含 host/ssh_port/user/key 或 password/console_port/via；`default` 指定默认板；优先级 flag > 环境变量 > 配置文件 > 默认值 | 已确认 |
-| REQ-0004 | 2025-10-24 | 认证与引导：支持公钥与密码双认证；`boardctl auth` 首次引导——生成/复用本机密钥，用密码登录目标板注入公钥（等价 ssh-copy-id），之后免密 | 已确认 |
-| REQ-0005 | 2025-10-24 | 真板支持与能力矩阵：ssh/deploy/status 完全一致；console 退化为 ssh（除非串口有网关）；电源/烧录口/USB 插拔为物理域不软件化；`flash`（ssh+dd 写 mmc）列为危险操作，Q4 后条件评估 | 已确认 |
-| REQ-0006 | 2025-10-24 | 防误操作（agent 场景）：破坏性命令（deploy 覆盖、flash、stop、rm 类）默认需确认，`--yes` 跳过；命令输出对 agent 友好（可 machine-readable，如 `--json`） | 已确认 |
-| REQ-0007 | 2025-10-24 | MCP server（条件触发）：当出现多客户端共享/工具级权限门控/非 shell host 需求时启动；实现为薄封装，工具标注 readOnly/destructive hint | 已确认（延后） |
-| REQ-0008 | 2025-10-24 | 流程约定：文档先行 + 分级自动验收（selftest L0 静态 / L1 配置与连通 / L2 板上冒烟 / L3 真机条件执行），方法论承接 vmpi REQ-0005/0008 | 已确认 |
+| REQ-0001 | 2026-10-24 | 定位：通用板卡客户端（虚拟/真实统一 endpoint 模型），供 AI agent 与人使用；源起 vmpi REQ-0009 边界拆分 | 已确认 |
+| REQ-0002 | 2026-10-24 | 双命令面：使用面（ssh/deploy/console/status）任意机器可用；管理面（start/stop/reset/flash/usb/port）仅本地或经 `--via ssh://宿主机` 代理执行；远程调用管理面而无 via 时给出明确指引 | 已确认 |
+| REQ-0003 | 2026-10-24 | 多板命名配置：`~/.boardctl/config.yaml` 以名字管理多个板子（虚拟/真板混排），含 host/ssh_port/user/key 或 password/console_port/via；`default` 指定默认板；优先级 flag > 环境变量 > 配置文件 > 默认值 | 已确认 |
+| REQ-0004 | 2026-10-24 | 认证与引导：支持公钥与密码双认证；`boardctl auth` 首次引导——生成/复用本机密钥，用密码登录目标板注入公钥（等价 ssh-copy-id），之后免密 | 已确认 |
+| REQ-0005 | 2026-10-24 | 真板支持与能力矩阵：ssh/deploy/status 完全一致；console 退化为 ssh（除非串口有网关）；电源/烧录口/USB 插拔为物理域不软件化；`flash`（ssh+dd 写 mmc）列为危险操作，Q4 后条件评估 | 已确认 |
+| REQ-0006 | 2026-10-24 | 防误操作（agent 场景）：破坏性命令（deploy 覆盖、flash、stop、rm 类）默认需确认，`--yes` 跳过；命令输出对 agent 友好（可 machine-readable，如 `--json`） | 已确认 |
+| REQ-0007 | 2026-10-24 | MCP server（条件触发）：当出现多客户端共享/工具级权限门控/非 shell host 需求时启动；实现为薄封装，工具标注 readOnly/destructive hint | 已确认（延后） |
+| REQ-0008 | 2026-10-24 | 流程约定：文档先行 + 分级自动验收（selftest L0 静态 / L1 配置与连通 / L2 板上冒烟 / L3 真机条件执行），方法论承接 vmpi REQ-0005/0008 | 已确认 |
 
 ## 3. 架构
 
